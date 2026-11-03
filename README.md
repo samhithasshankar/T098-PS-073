@@ -12,14 +12,15 @@ The application is being developed using Python and is designed to process struc
 
 ## Project Details
 
- Detail and Description 
- Project ID - T098-PS-073 
- Project Type - Backend Application 
- Programming Language - Python 3.10+ 
- Input Format - CSV / Command Files 
- Testing Framework - Pytest 
- Interface - Command-file-driven 
- Project Status - In Development 
+| Detail | Description |
+|---|---|
+| Project ID | T098-PS-073 |
+| Project Type | Backend Application |
+| Programming Language | Python 3.10+ |
+| Input Format | CSV / Command Files |
+| Testing Framework | Pytest |
+| Interface | Command-file-driven |
+| Project Status | In Development |
 
 ## Key Features
 
@@ -82,7 +83,7 @@ The application is being developed using Python and is designed to process struc
 
 ## Project Structure
 
-
+```text
 T098-PS-073/
 │
 ├── main.py
@@ -96,22 +97,22 @@ T098-PS-073/
 ├── data/
 ├── output/
 └── docs/
-
+```
 
 ### Folder Description
 
- Folder and its Purpose:
- 
- models - Consumer, meter, tariff, bill and payment models 
- services - Billing calculations and business logic 
- validators - Input validation 
- utils - CSV processing and utility functions 
- commands - Command-file processing 
- reports - Billing and account reports 
- tests - Automated test cases 
- data - Input CSV files 
- output - Generated bills and reports 
- docs - Project documentation and decision log 
+| Folder | Purpose |
+|---|---|
+| models | Consumer, meter, tariff, bill and payment models |
+| services | Billing calculations and business logic |
+| validators | Input validation |
+| utils | CSV processing and utility functions |
+| commands | Command-file processing |
+| reports | Billing and account reports |
+| tests | Automated test cases |
+| data | Input CSV files |
+| output | Generated bills and reports |
+| docs | Project documentation and decision log |
 
 ## Business Rules
 
@@ -145,9 +146,10 @@ Tests will be executed using Pytest.
 
 ## Team Members
 
-
- Samhitha S Shankar-1AT24IS171
- Satyam Singh-1AT24IS172 
+| Name | USN | Role |
+|---|---|---|
+| Samhitha S Shankar | 1AT24IS171 | Team Member |
+| Satyam Singh | 1AT24IS172 | Team Member |
 
 **Section:** ISE D  
 **Team ID:** T098
