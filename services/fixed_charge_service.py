@@ -1,89 +1,82 @@
-from dataclasses import dataclass
+
 from decimal import Decimal, ROUND_HALF_UP
 
-from models.enums import ConsumerCategory
 
+ZERO = Decimal("0.00")
+TWO_PLACES = Decimal("0.01")
 
-@dataclass
-class FixedChargeBreakdown:
-    base_charge: Decimal
-    excess_load_penalty: Decimal
-    total_charge: Decimal
-    load_regularisation_required: bool
-
-
-FIXED_RATES = {
-    ConsumerCategory.DOMESTIC: Decimal("75"),
-    ConsumerCategory.COMMERCIAL: Decimal("150"),
-    ConsumerCategory.INDUSTRIAL_LT: Decimal("250"),
-    ConsumerCategory.AGRICULTURE: Decimal("0"),
+FIXED_CHARGE_FIELDS = {
+    "DOMESTIC": "fixed_domestic_per_kw",
+    "COMMERCIAL": "fixed_commercial_per_kw",
+    "INDUSTRIAL_LT": "fixed_industrial_per_kw",
 }
 
 
-def money(value: Decimal) -> Decimal:
-    return value.quantize(
-        Decimal("0.01"),
+def money(value):
+    return Decimal(str(value)).quantize(
+        TWO_PLACES,
         rounding=ROUND_HALF_UP
     )
 
 
-def calculate_fixed_charge(
-    category: ConsumerCategory,
-    sanctioned_load_kw: Decimal,
-    max_demand_kw: Decimal = Decimal("0"),
-    is_bpl: bool = False,
-    consumption: Decimal = Decimal("0")
-) -> FixedChargeBreakdown:
+def calculate_fixed_and_demand_charges(consumer, tariff, max_demand_kw=None):
+    """
+    Calculate the regular fixed charge and any excess-demand charge.
 
-    sanctioned_load_kw = Decimal(str(sanctioned_load_kw))
-    max_demand_kw = Decimal(str(max_demand_kw))
-    consumption = Decimal(str(consumption))
+    BR-03:
+    - Fixed charge = sanctioned load x category fixed rate.
+    - Excess demand applies only when demand is MORE than 110%
+      of sanctioned load.
+    - Excess demand charge = excess kW x 2 x fixed rate.
+    """
 
-    if sanctioned_load_kw <= 0:
-        raise ValueError("Sanctioned load must be positive.")
+    category = consumer["category"]
+    sanctioned_load = Decimal(str(consumer["sanctioned_load_kw"]))
 
-    if max_demand_kw < 0 or consumption < 0:
-        raise ValueError("Demand and consumption cannot be negative.")
+    if sanctioned_load < 0:
+        raise ValueError("Sanctioned load cannot be negative.")
 
-    if not isinstance(category, ConsumerCategory):
-        category = ConsumerCategory(category)
+    if category == "AGRICULTURE":
+        return {
+            "fixed_charge": ZERO,
+            "excess_demand_charge": ZERO,
+            "excess_demand_flag": False,
+            "excess_demand_kw": Decimal("0.00"),
+        }
 
-    rate = FIXED_RATES[category]
+    field = FIXED_CHARGE_FIELDS.get(category)
 
-    # BPL consumers using 100 units or less
-    # receive a fixed-charge exemption.
-    if is_bpl and consumption <= Decimal("100"):
-        return FixedChargeBreakdown(
-            base_charge=Decimal("0.00"),
-            excess_load_penalty=Decimal("0.00"),
-            total_charge=Decimal("0.00"),
-            load_regularisation_required=False
-        )
+    if field is None:
+        raise ValueError(f"Unsupported consumer category: {category}")
 
-    base_charge = sanctioned_load_kw * rate
+    fixed_rate = Decimal(str(tariff[field]))
 
-    # Penalty only when demand exceeds sanctioned load by
-    # MORE THAN 10%, not exactly 10%.
-    threshold = sanctioned_load_kw * Decimal("1.10")
+    fixed_charge = money(sanctioned_load * fixed_rate)
 
-    excess_penalty = Decimal("0")
-    regularisation_required = False
+    excess_demand_charge = ZERO
+    excess_demand_flag = False
+    excess_demand_kw = Decimal("0.00")
 
-    if max_demand_kw > threshold:
-        excess_kw = max_demand_kw - sanctioned_load_kw
+    if max_demand_kw is not None:
+        demand = Decimal(str(max_demand_kw))
 
-        excess_penalty = (
-            excess_kw * rate * Decimal("2")
-        )
+        if demand < 0:
+            raise ValueError("Maximum demand cannot be negative.")
 
-        regularisation_required = True
+        threshold = sanctioned_load * Decimal("1.10")
 
-    base_charge = money(base_charge)
-    excess_penalty = money(excess_penalty)
+        if demand > threshold:
+            excess_demand_kw = demand - sanctioned_load
 
-    return FixedChargeBreakdown(
-        base_charge=base_charge,
-        excess_load_penalty=excess_penalty,
-        total_charge=money(base_charge + excess_penalty),
-        load_regularisation_required=regularisation_required
-    )
+            excess_demand_charge = money(
+                excess_demand_kw * fixed_rate * Decimal("2")
+            )
+
+            excess_demand_flag = True
+
+    return {
+        "fixed_charge": fixed_charge,
+        "excess_demand_charge": excess_demand_charge,
+        "excess_demand_flag": excess_demand_flag,
+        "excess_demand_kw": money(excess_demand_kw),
+    }

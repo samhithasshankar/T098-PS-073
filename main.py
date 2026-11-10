@@ -1,38 +1,47 @@
 
-from models.enums import ConsumerCategory, MeterType
-from models.consumer import Consumer
-from models.meter import Meter
-from models.reading import MeterReading
-from models.tariff import Tariff, Slab
-from models.ledger import Ledger
-from models.bill import Bill
+"""
+T098-PS-073: Electricity Billing Engine
 
-print("Electricity Billing Engine")
-print("--------------------------")
+Application entry point.
+Loads and validates the official sample data.
+"""
 
-# Test existing model imports
-print("Consumer categories:", [c.value for c in ConsumerCategory])
-print("Meter types:", [m.value for m in MeterType])
+from pprint import pprint
 
-print("\nAll model imports successful!")
+from utils.data_loader import load_all_data
 
-# Create consumer ledger
-print("\n----- LEDGER TEST -----")
 
-ledger = Ledger("L001", "C001")
+def main():
+    print("=" * 60)
+    print("       T098-PS-073 ELECTRICITY BILLING ENGINE")
+    print("=" * 60)
 
-# Add electricity bill
-ledger.add_bill("B001", 1500)
+    try:
+        print("\nLoading project data...")
 
-# Record payment
-ledger.record_payment("P001", 1000)
+        data = load_all_data()
 
-# Add delayed payment interest
-ledger.add_interest(50)
+        print("\nData loaded successfully!")
 
-# Display ledger statement
-ledger.print_statement()
+        print("\nLoaded data summary:")
+        pprint(data)
 
-print("\nRemaining Balance: Rs.", ledger.get_balance())
+        print("\n" + "=" * 60)
+        print("DATA LOADING COMPLETED")
+        print("=" * 60)
 
-print("\nElectricity Billing Engine executed successfully!")
+    except FileNotFoundError as error:
+        print("\nERROR: Required data file not found.")
+        print(error)
+
+    except ValueError as error:
+        print("\nERROR: Data validation failed.")
+        print(error)
+
+    except Exception as error:
+        print("\nUNEXPECTED ERROR:")
+        print(error)
+
+
+if __name__ == "__main__":
+    main()

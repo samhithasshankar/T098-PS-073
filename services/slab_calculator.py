@@ -1,129 +1,189 @@
-from dataclasses import dataclass
+
 from decimal import Decimal, ROUND_HALF_UP
 
-from models.tariff import Slab
+
+ZERO = Decimal("0")
+TWO_PLACES = Decimal("0.01")
 
 
-@dataclass
-class SlabBreakdown:
-    units: Decimal
-    rate: Decimal
-    amount: Decimal
+def round_units(value):
+    """Round slab limits to the nearest whole unit."""
+    return int(
+        Decimal(value).quantize(
+            Decimal("1"),
+            rounding=ROUND_HALF_UP
+        )
+    )
 
 
-def prorate_slab_limits(slabs: list[Slab], days: int) -> list[Slab]:
+def round_money(value):
+    """Round money to two decimal places."""
+    return Decimal(value).quantize(
+        TWO_PLACES,
+        rounding=ROUND_HALF_UP
+    )
+
+
+def prorate_slabs(slabs, period_days):
     """
-    Adjust slab limits when the billing period is outside
-    the standard 28-33 day range.
+    Keep original slab limits for 28-33 day periods.
 
-    Formula:
-        Adjusted limit = Original limit * days / 30
+    For other periods, multiply slab limits by days/30
+    and round to the nearest whole unit.
     """
 
-    if days <= 0:
-        raise ValueError("Billing days must be positive.")
+    if period_days <= 0:
+        raise ValueError("Billing period must be positive.")
 
-    if 28 <= days <= 33:
-        return slabs
+    if not slabs:
+        raise ValueError("No tariff slabs supplied.")
+
+    if 28 <= period_days <= 33:
+        return [slab.copy() for slab in slabs]
+
+    factor = Decimal(period_days) / Decimal("30")
 
     adjusted_slabs = []
+    previous_upper = 0
 
-    for slab in slabs:
-        if slab.upper_limit is None:
-            adjusted_slabs.append(Slab(None, slab.rate))
+    for index, slab in enumerate(slabs):
+
+        adjusted = slab.copy()
+
+        adjusted["from_unit"] = (
+            0 if index == 0 else previous_upper + 1
+        )
+
+        if slab["to_unit"] is None:
+            adjusted["to_unit"] = None
+
         else:
-            adjusted_limit = (
-                slab.upper_limit * Decimal(days) / Decimal("30")
-            ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
-
-            adjusted_slabs.append(
-                Slab(adjusted_limit, slab.rate)
+            adjusted_upper = round_units(
+                Decimal(slab["to_unit"]) * factor
             )
+
+            if adjusted_upper <= previous_upper:
+                raise ValueError(
+                    "Invalid slab limits after proration."
+                )
+
+            adjusted["to_unit"] = adjusted_upper
+            previous_upper = adjusted_upper
+
+        adjusted_slabs.append(adjusted)
 
     return adjusted_slabs
 
 
 def calculate_slab_breakdown(
-    consumption: Decimal,
-    slabs: list[Slab],
-    days: int = 30
-) -> list[SlabBreakdown]:
+    units,
+    slabs,
+    period_days=30
+):
+    """
+    Calculate progressive slab charges.
 
-    consumption = Decimal(str(consumption))
+    Important:
+    The first slab 0-50 represents 50 units,
+    not 51 units.
 
-    if consumption < 0:
+    Each subsequent slab capacity is calculated
+    using the difference between consecutive upper
+    limits.
+    """
+
+    units = int(units)
+
+    if units < 0:
         raise ValueError("Consumption cannot be negative.")
 
     if not slabs:
-        raise ValueError("At least one slab is required.")
+        raise ValueError("No tariff slabs supplied.")
 
-    adjusted_slabs = prorate_slab_limits(slabs, days)
+    adjusted_slabs = prorate_slabs(
+        slabs,
+        period_days
+    )
 
-    previous_limit = Decimal("0")
-    remaining_units = consumption
+    remaining_units = units
+    previous_upper = 0
+
     breakdown = []
+    total_charge = ZERO
 
     for slab in adjusted_slabs:
 
-        if remaining_units <= 0:
+        if remaining_units == 0:
             break
 
-        if slab.upper_limit is None:
-            available_units = remaining_units
+        upper = slab["to_unit"]
+
+        rate = Decimal(
+            str(slab["rate_per_unit"])
+        )
+
+        if upper is None:
+            slab_units = remaining_units
+
         else:
-            available_units = (
-                slab.upper_limit - previous_limit
+            # 0-50 means 50 units.
+            # 51-100 means another 50 units.
+            slab_capacity = upper - previous_upper
+
+            slab_units = min(
+                remaining_units,
+                slab_capacity
             )
 
-            if available_units <= 0:
-                raise ValueError("Invalid slab limits.")
+        if slab_units <= 0:
+            continue
 
-        units_in_slab = min(
-            remaining_units,
-            available_units
+        amount = round_money(
+            Decimal(slab_units) * rate
         )
 
-        amount = units_in_slab * slab.rate
+        breakdown.append({
+            "slab_no": slab["slab_no"],
+            "units": slab_units,
+            "rate_per_unit": rate,
+            "amount": amount
+        })
 
-        breakdown.append(
-            SlabBreakdown(
-                units=units_in_slab,
-                rate=slab.rate,
-                amount=amount
-            )
-        )
+        total_charge += amount
+        remaining_units -= slab_units
 
-        remaining_units -= units_in_slab
-
-        if slab.upper_limit is not None:
-            previous_limit = slab.upper_limit
+        if upper is not None:
+            previous_upper = upper
 
     if remaining_units > 0:
         raise ValueError(
-            "Tariff slabs do not cover the complete consumption."
+            "Tariff slabs do not cover the supplied consumption."
         )
 
-    return breakdown
+    return {
+        "units": units,
+        "period_days": period_days,
+        "slab_breakdown": breakdown,
+        "energy_charge": round_money(total_charge)
+    }
 
 
 def calculate_energy_charge(
-    consumption: Decimal,
-    slabs: list[Slab],
-    days: int = 30
-) -> Decimal:
+    units,
+    tariff,
+    category,
+    period_days=30
+):
+    """Calculate energy charges using the loaded tariff."""
 
-    breakdown = calculate_slab_breakdown(
-        consumption,
-        slabs,
-        days
-    )
+    if category not in tariff["slabs"]:
+        raise ValueError(
+            f"No slabs for {category} "
+            f"in tariff {tariff['tariff_id']}"
+        )
 
-    total = sum(
-        (item.amount for item in breakdown),
-        Decimal("0")
-    )
-
-    return total.quantize(
-        Decimal("0.01"),
-        rounding=ROUND_HALF_UP
+    return calculate_slab_breakdown(
+        units,
+        tariff["slabs"][category],
+        period_days
     )

@@ -1,0 +1,3 @@
+tariff_id,effective_date,fac_per_unit,duty_pct_domestic,duty_pct_others,fixed_domestic_per_kw,fixed_commercial_per_kw,fixed_industrial_per_kw,min_charge_domestic,min_charge_others,tod_peak_pct,tod_offpeak_pct,net_settlement_rate,agri_subsidy_hp_limit
+TO-2025,2025-04-01,0.35,6.00,9.00,75.00,150.00,250.00,150.00,500.00,20.00,-10.00,3.00,10
+TO-2026,2026-04-10,0.40,6.00,9.00,80.00,160.00,265.00,150.00,500.00,20.00,-10.00,3.00,10

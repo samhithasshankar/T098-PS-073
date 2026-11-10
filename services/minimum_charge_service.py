@@ -1,46 +1,65 @@
+
 from decimal import Decimal, ROUND_HALF_UP
 
-from models.enums import ConsumerCategory, ReadingStatus
+TWO_PLACES = Decimal("0.01")
+ZERO = Decimal("0.00")
 
 
-MINIMUM_CHARGES = {
-    ConsumerCategory.DOMESTIC: Decimal("150"),
-    ConsumerCategory.COMMERCIAL: Decimal("500"),
-    ConsumerCategory.INDUSTRIAL_LT: Decimal("500"),
-    ConsumerCategory.AGRICULTURE: Decimal("500"),
-}
-
-
-def calculate_minimum_bill(
-    category: ConsumerCategory,
-    energy_charge: Decimal,
-    fixed_charge: Decimal,
-    reading_status: ReadingStatus = ReadingStatus.NORMAL
-) -> Decimal:
-
-    energy_charge = Decimal(str(energy_charge))
-    fixed_charge = Decimal(str(fixed_charge))
-
-    if energy_charge < 0 or fixed_charge < 0:
-        raise ValueError("Charges cannot be negative.")
-
-    if not isinstance(category, ConsumerCategory):
-        category = ConsumerCategory(category)
-
-    if not isinstance(reading_status, ReadingStatus):
-        reading_status = ReadingStatus(reading_status)
-
-    subtotal = energy_charge + fixed_charge
-
-    # Minimum charge is not applicable in faulty months.
-    if reading_status == ReadingStatus.FAULTY:
-        return subtotal.quantize(Decimal("0.01"))
-
-    minimum = MINIMUM_CHARGES[category]
-
-    final_amount = max(subtotal, minimum)
-
-    return final_amount.quantize(
-        Decimal("0.01"),
+def money(value):
+    return Decimal(str(value)).quantize(
+        TWO_PLACES,
         rounding=ROUND_HALF_UP
     )
+
+
+def calculate_minimum_charge(
+    category,
+    tariff,
+    energy_charge,
+    fixed_charge,
+    is_faulty=False
+):
+    """
+    BR-04: Apply the category minimum charge when
+    energy charge + fixed charge is below the minimum.
+
+    No minimum charge adjustment is applied in a FAULTY month.
+    """
+
+    energy = money(energy_charge)
+    fixed = money(fixed_charge)
+
+    if energy < ZERO or fixed < ZERO:
+        raise ValueError("Energy and fixed charges cannot be negative.")
+
+    amount_before_minimum = money(energy + fixed)
+
+    if is_faulty:
+        return {
+            "amount_before_minimum": amount_before_minimum,
+            "minimum_charge": ZERO,
+            "minimum_charge_adjustment": ZERO,
+            "amount_after_minimum": amount_before_minimum,
+        }
+
+    minimum_field = (
+        "min_charge_domestic"
+        if category == "DOMESTIC"
+        else "min_charge_others"
+    )
+
+    minimum_charge = money(tariff[minimum_field])
+
+    adjustment = max(
+        ZERO,
+        money(minimum_charge - amount_before_minimum)
+    )
+
+    return {
+        "amount_before_minimum": amount_before_minimum,
+        "minimum_charge": minimum_charge,
+        "minimum_charge_adjustment": adjustment,
+        "amount_after_minimum": money(
+            amount_before_minimum + adjustment
+        ),
+    }
