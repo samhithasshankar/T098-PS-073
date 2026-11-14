@@ -439,7 +439,7 @@ python -m pytest -q
 The verified test suite result during project validation was:
 
 ```text
-136 passed
+137 passed
 ```
 
 The test suite covers billing calculations, slab calculations, net metering, ToD, taxes, payments, arrears, reconciliation, disconnection, reconnection and report generation.
@@ -457,7 +457,7 @@ Verified execution using the supplied sample dataset:
 | Payments loaded | 1,208 |
 | Commands executed | 36 |
 | Bills calculated | 1,500 |
-| Ledger entries generated | 713 |
+| Ledger entries generated | 697 |
 | CSV reports generated | 5 |
 
 The application entry point and report generation were successfully verified using:
