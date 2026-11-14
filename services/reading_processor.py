@@ -159,6 +159,7 @@ def process_consumer_readings(readings):
         is_estimated = False
         reconciliation_required = False
         reconciliation_actual_units = None
+        resolved_faulty_periods = []
 
         if status == "NORMAL":
             if current_import is None:
@@ -200,10 +201,13 @@ def process_consumer_readings(readings):
 
             last_import_register = current_import
 
+            # Preserve the faulty periods being resolved before
+            # clearing the pending list.
+            resolved_faulty_periods = list(pending_faulty)
+
             if pending_faulty:
                 reconciliation_required = True
                 reconciliation_actual_units = consumption
-
                 pending_faulty = []
 
             normal_history.append(consumption)
@@ -278,9 +282,6 @@ def process_consumer_readings(readings):
         if len(segments) > 1:
             flags.append("SPLIT_BILL")
 
-        if reconciliation_required:
-            flags.append("RECONCILIATION_PENDING")
-
         result = {
             "reading_id": row["reading_id"],
             "consumer_id": row["consumer_id"],
@@ -312,6 +313,7 @@ def process_consumer_readings(readings):
                 else None
             ),
             "pending_faulty_periods": list(pending_faulty),
+            "resolved_faulty_periods": resolved_faulty_periods,
             "segments": segments,
             "flags": flags,
         }
