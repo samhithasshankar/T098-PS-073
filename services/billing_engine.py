@@ -111,7 +111,6 @@ def calculate_consumer_bills(
     )
 
     bills = []
-    first_bill_for_reading = True
 
     if isinstance(tariff_catalog, list):
         tariff_by_id = {
@@ -122,6 +121,10 @@ def calculate_consumer_bills(
         tariff_by_id = dict(tariff_catalog)
 
     for processed in processed_periods:
+
+        # Reset for each reading period.
+        # Maximum demand is applied only to its first generated bill.
+        first_bill_for_reading = True
 
         original_days = processed["period_days"]
 
