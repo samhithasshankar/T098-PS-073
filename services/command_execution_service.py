@@ -10,8 +10,10 @@ from reports.csv_report_service import write_all_reports
 from services.arrears_ageing_service import generate_arrears_ageing
 from services.billing_engine import calculate_consumer_bills
 from services.disconnection_service import (
+    calculate_disconnection_date,
     evaluate_disconnection,
     evaluate_reconnection,
+    is_agriculture_disconnection_restricted,
 )
 from services.payment_processing_service import process_payments
 from services.tariff_service import build_tariff_catalog
@@ -164,8 +166,24 @@ def _consecutive_unpaid(debts):
     return count
 
 
+def _next_eligible_disconnection_date(category, notice_date):
+    """Return the first permitted disconnection date."""
+    due_date = calculate_disconnection_date(notice_date)
+
+    while is_agriculture_disconnection_restricted(
+        category,
+        due_date,
+    ):
+        due_date += timedelta(days=1)
+
+    return due_date
+
+
 def _build_state_events(data, bills, commands):
-    """Evaluate connection state at each command timestamp."""
+    """
+    Evaluate connection states at command timestamps and
+    process pending disconnections on their actual due dates.
+    """
     consumers = {
         row["consumer_id"]: row
         for row in data["consumers"]
@@ -181,10 +199,74 @@ def _build_state_events(data, bills, commands):
     state_rows = []
     reconnect_results = {}
 
+    def process_pending_disconnections(until_time):
+        """Process disconnections whose eligible dates have arrived."""
+        for consumer_id, notice_date in list(notice_dates.items()):
+
+            if states[consumer_id] != "DISCONNECTION_NOTICE":
+                continue
+
+            consumer = consumers[consumer_id]
+
+            due_date = _next_eligible_disconnection_date(
+                consumer["category"],
+                notice_date,
+            )
+
+            due_time = datetime.combine(due_date, time.max)
+
+            if due_time > until_time:
+                continue
+
+            due_snapshot = _payment_snapshot(
+                bills,
+                data["payments"],
+                due_time,
+            )
+
+            debts = due_snapshot["debts"].get(consumer_id, [])
+            arrears = _outstanding(debts)
+
+            evaluation = evaluate_disconnection(
+                category=consumer["category"],
+                consecutive_unpaid_bills=_consecutive_unpaid(
+                    debts
+                ),
+                total_arrears=arrears,
+                as_of_date=due_date,
+                notice_date=notice_date,
+            )
+
+            new_state = evaluation["state"]
+
+            if new_state == "DISCONNECTED":
+                state_rows.append({
+                    "consumer_id": consumer_id,
+                    "event_date": due_date,
+                    "state": "DISCONNECTED",
+                    "reason": evaluation["reason"],
+                })
+
+                states[consumer_id] = "DISCONNECTED"
+                disconnected_dates[consumer_id] = due_date
+
+            elif new_state == "CONNECTED":
+                state_rows.append({
+                    "consumer_id": consumer_id,
+                    "event_date": due_date,
+                    "state": "CONNECTED",
+                    "reason": evaluation["reason"],
+                })
+
+                states[consumer_id] = "CONNECTED"
+                notice_dates.pop(consumer_id, None)
+
     for command in commands:
         execution_time = _timestamp(
             command["execution_timestamp"]
         )
+
+        process_pending_disconnections(execution_time)
 
         snapshot = _payment_snapshot(
             bills,
@@ -192,11 +274,13 @@ def _build_state_events(data, bills, commands):
             execution_time,
         )
 
+        # First evaluate ordinary connection and notice states.
         for consumer_id, consumer in consumers.items():
 
-            # Do not issue another notice or disconnection
-            # event for a consumer already disconnected.
-            if states[consumer_id] == "DISCONNECTED":
+            if states[consumer_id] in (
+                "DISCONNECTED",
+                "RECONNECTED",
+            ):
                 continue
 
             debts = snapshot["debts"].get(consumer_id, [])
@@ -229,18 +313,32 @@ def _build_state_events(data, bills, commands):
                         evaluation["notice_date"]
                     )
 
-                elif new_state == "DISCONNECTED":
-                    disconnected_dates[consumer_id] = (
-                        execution_time.date()
-                    )
-
                 elif new_state == "CONNECTED":
                     notice_dates.pop(consumer_id, None)
-                    disconnected_dates.pop(consumer_id, None)
 
+        # Handle RECONNECT separately, after the consumer loop.
+        # This ensures disconnected consumers are not skipped.
         if command["command"] == "RECONNECT":
             consumer_id = command["arguments"][0]
+
+            if consumer_id not in consumers:
+                reconnect_results[consumer_id] = {
+                    "state": "REFUSED",
+                    "reason": "Unknown consumer.",
+                }
+                continue
+
             consumer = consumers[consumer_id]
+
+            if states[consumer_id] != "DISCONNECTED":
+                reconnect_results[consumer_id] = {
+                    "state": "REFUSED",
+                    "reason": (
+                        "Consumer is not in DISCONNECTED state."
+                    ),
+                }
+                continue
+
             debts = snapshot["debts"].get(consumer_id, [])
             arrears = _outstanding(debts)
 
@@ -264,9 +362,7 @@ def _build_state_events(data, bills, commands):
                 else ZERO
             )
 
-            disconnected_on = disconnected_dates.get(
-                consumer_id
-            )
+            disconnected_on = disconnected_dates.get(consumer_id)
 
             payments_after_disconnect = [
                 payment
@@ -288,25 +384,17 @@ def _build_state_events(data, bills, commands):
                 ZERO,
             )
 
-            if states[consumer_id] != "DISCONNECTED":
-                reconnect_results[consumer_id] = {
-                    "state": "REFUSED",
-                    "reason": (
-                        "Consumer is not in DISCONNECTED state."
-                    ),
-                }
+            result = evaluate_reconnection(
+                amount_paid=amount_paid,
+                total_arrears=arrears,
+                security_deposit=consumer.get(
+                    "security_deposit", 0
+                ),
+                average_monthly_bill=average_bill,
+            )
 
-            else:
-                result = evaluate_reconnection(
-                    amount_paid=amount_paid,
-                    total_arrears=arrears,
-                    security_deposit=consumer.get(
-                        "security_deposit", 0
-                    ),
-                    average_monthly_bill=average_bill,
-                )
-
-                if result["state"] == "RECONNECTED":
+            if result["state"] == "RECONNECTED":
+                if amount_paid > ZERO:
                     states[consumer_id] = "RECONNECTED"
 
                     state_rows.append({
@@ -318,22 +406,29 @@ def _build_state_events(data, bills, commands):
                             "and deposit top-up paid."
                         ),
                     })
-
-                if amount_paid <= ZERO:
+                else:
                     result = {
                         "state": "REFUSED",
                         "reason": (
                             "No qualifying payment was recorded "
                             "before the reconnect request."
                         ),
-                        "required_amount": result[
-                            "required_amount"
-                        ],
+                        "required_amount": result["required_amount"],
                         "amount_paid": result["amount_paid"],
                         "shortfall": result["shortfall"],
                     }
 
-                reconnect_results[consumer_id] = result
+            reconnect_results[consumer_id] = result
+
+    final_cutoff = max(
+        (
+            _timestamp(command["execution_timestamp"])
+            for command in commands
+        ),
+        default=datetime.min,
+    )
+
+    process_pending_disconnections(final_cutoff)
 
     state_rows.sort(
         key=lambda row: (

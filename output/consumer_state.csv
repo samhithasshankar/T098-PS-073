@@ -3,11 +3,12 @@ CON-0011,2025-11-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed th
 CON-0044,2025-11-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0062,2025-11-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0068,2025-11-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0011,2025-12-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0044,2025-12-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0011,2025-12-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0044,2025-12-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0062,2025-12-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0068,2025-12-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0053,2025-12-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0062,2025-12-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0068,2025-12-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0053,2026-01-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0001,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0002,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0017,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
@@ -15,29 +16,33 @@ CON-0020,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed th
 CON-0038,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0046,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0048,2026-01-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0053,2026-01-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0001,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0002,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0001,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0002,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0017,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0020,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0038,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0046,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0048,2026-02-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0015,2026-02-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0017,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0020,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0032,2026-02-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0038,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0041,2026-02-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0045,2026-02-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0046,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0048,2026-02-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0095,2026-02-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0015,2026-03-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0032,2026-03-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0041,2026-03-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0045,2026-03-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0015,2026-03-15,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0032,2026-03-15,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0041,2026-03-15,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0045,2026-03-15,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0095,2026-03-15,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0055,2026-03-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0059,2026-03-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0072,2026-03-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0088,2026-03-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0095,2026-03-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0099,2026-03-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
+CON-0055,2026-04-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0059,2026-04-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0072,2026-04-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0088,2026-04-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0099,2026-04-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0003,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0005,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0010,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
@@ -52,80 +57,78 @@ CON-0043,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed th
 CON-0050,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0052,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0054,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0055,2026-04-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0057,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0059,2026-04-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0066,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0071,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0072,2026-04-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0073,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0076,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0078,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0081,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0084,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0087,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0088,2026-04-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0089,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0093,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0096,2026-04-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0099,2026-04-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0003,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0005,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0010,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0012,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0003,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0005,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0010,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0012,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0016,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0023,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0026,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0027,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0029,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0042,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0043,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0050,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0052,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0054,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0057,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0066,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0071,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0073,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0076,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0078,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0081,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0084,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0087,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0089,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0093,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0096,2026-05-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0014,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0016,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0021,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0023,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0026,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0027,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0029,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0031,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0042,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0043,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0047,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0050,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0052,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0054,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0057,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0058,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0060,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0066,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0071,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0073,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0075,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0076,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0078,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0081,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0082,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0083,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0084,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0086,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0087,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0089,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0093,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0096,2026-05-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0097,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0100,2026-05-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
+CON-0014,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0021,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0031,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0047,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0058,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0060,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0075,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0082,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0083,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0086,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0097,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0100,2026-06-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0007,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0014,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0018,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0019,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0021,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0028,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0031,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0047,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0058,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0060,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0065,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0075,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0080,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0082,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0083,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0086,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0094,2026-06-20,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0097,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0100,2026-06-20,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0065,2026-07-05,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0080,2026-07-05,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0094,2026-07-05,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0004,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0008,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0013,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
@@ -134,25 +137,22 @@ CON-0035,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed th
 CON-0036,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0037,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0040,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0065,2026-07-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0077,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0080,2026-07-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0092,2026-07-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0094,2026-07-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0004,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0004,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0008,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0013,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0025,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0035,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0037,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0040,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0077,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0092,2026-08-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0006,2026-08-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0008,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0013,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0025,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0035,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0037,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0040,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0077,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0092,2026-08-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
-CON-0006,2026-09-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
+CON-0006,2026-09-12,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0070,2026-09-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0074,2026-09-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
+CON-0070,2026-10-13,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0022,2026-10-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
 CON-0067,2026-10-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
-CON-0070,2026-10-28,DISCONNECTED,Notice period completed and arrears remain unpaid.
 CON-0098,2026-10-28,DISCONNECTION_NOTICE,Unpaid bill count and arrears exceed the applicable limits.
