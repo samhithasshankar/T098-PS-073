@@ -466,11 +466,15 @@ The application entry point and report generation were successfully verified usi
 python main.py
 ```
 
-## 15. Repository
+## 15. Repository and video link
 
 **GitHub Repository:**
 
 https://github.com/samhithasshankar/T098-PS-073
+
+**Video Link:**
+
+https://drive.google.com/drive/folders/1c0hNtaePdx95sRMROu-wmbTY3MEiKYZh?usp=sharing
 
 ---
 
